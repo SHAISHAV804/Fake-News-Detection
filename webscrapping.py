@@ -5,10 +5,10 @@ from bs4 import BeautifulSoup
 def getNewsData():
     headers = {
         "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36"
     }
     response = requests.get(
-        "https://www.google.com/search?q=election+2024+india&num=100&sca_esv=e7f9f9d91f1faf1c&gl=us&tbm=nws&ei=XZMqZqSBMragnesPzN2wgA4&oq=election+2024&gs_lp=Egxnd3Mtd2l6LW5ld3MiDWVsZWN0aW9uIDIwMjQqAggEMgsQABiABBixAxiDATILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATIOEAAYgAQYsQMYgwEYigUyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDAUjX8QFQq6MBWKfaAXACeACQAQCYAZQCoAGuEqoBBjAuMTUuMbgBAcgBAPgBAZgCEqAC6hLCAgoQABiABBhDGIoFwgIFEAAYgATCAgcQABiABBgKwgILEAAYgAQYkQIYigXCAggQABiABBixA8ICDhAAGIAEGJECGLEDGIoFwgIQEAAYgAQYsQMYQxiDARiKBcICERAAGIAEGJECGLEDGIMBGIoFwgIGEAAYFhgewgIIEAAYFhgeGA_CAgQQABgDmAMAiAYBkgcGMi4xNS4xoAeOXA&sclient=gws-wiz-news", headers=headers
+        "https://www.google.com/search?q=us+stock+markets&gl=us&tbm=nws&num=100", headers=headers
     )
     soup = BeautifulSoup(response.content, "html.parser")
     news_results = []
@@ -24,6 +24,6 @@ def getNewsData():
             }
         )
   
-    return news_results
+    return  news_results
   
 getNewsData()
