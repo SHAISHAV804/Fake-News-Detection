@@ -1,0 +1,80 @@
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: dimgray;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input{
+  text-align: center;
+}
+canvas {
+  background: #f9f9f9;
+}
+
+div.overlay {
+  width: 100%;
+  opacity: .85;
+}
+div.overlay h1 {
+  margin: 0;
+  display: block;
+  color: #333333;
+  font-size: 10vw;
+  font-family: 'Open Sans';
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Utility */
+.abs {
+  position: absolute;
+}
+
+.left {
+  left: 5px;
+}
+
+.right {
+  right: 5px;
+}
+
+.bottom {
+  bottom: 5px;
+}
+
+.top {
+  top: 5px;
+}
+
+.hcenter {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vcenter {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.overlay {
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
