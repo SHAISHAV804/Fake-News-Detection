@@ -1,6 +1,6 @@
 'use strict';
 
-var c, ctx, w, h, particles, nextframe;
+var c, ctx, w, h, characters, nextframe;
 
 (function () {
     Math.randomInt = function (min, max) {
@@ -20,69 +20,79 @@ function init() {
     c.height = h = window.innerHeight;
     ctx = c.getContext('2d');
     
-    particles = [];
-    for (var i = 0; i < 300; i++) {
-        particles[i] = new Particle();
-        particles[i].init();
+    characters = [];
+    var alphabets = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ऌ', 'ऍ', 'ए', 'ऐ', 'ऑ', 'ऒ', 'ओ', 'औ', 'क', 'ख', 'ग', 'घ', 'ङ', 'च', 'छ', 'ज', 'झ', 'ञ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'ळ', 'क', 'ष', 'ज', 'ञ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    var numCharacters = 180;
+    var radius = Math.min(w, h) / 2;
+    var angleStep = 2 * Math.PI / numCharacters;
+
+    for (var i = 0; i < numCharacters; i++) {
+        var angle = i * angleStep;
+        var x = w / 2 + radius * Math.cos(angle);
+        var y = h / 2 + radius * Math.sin(angle);
+        characters[i] = new Character(Math.randomList(alphabets), x, y);
+        characters[i].init();
     }
     
     loop();
 }
 
 function loop() {
-    for (var i = 0; i < particles.length; i++) {
-        if (particles[i].isOut()) {
-            particles[i].init();
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < characters.length; i++) {
+        if (characters[i].isOut()) {
+            characters[i].init();
         }
-        particles[i].clear();
-    }
-    for (var i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
+        characters[i].update();
+        characters[i].draw();
     }
     
     nextframe = requestAnimationFrame(loop);
 }
 
-function Particle() {
-    this.alive = false;
+function Character(char, x, y) {
+    this.char = char;
+    this.x = x;
+    this.y = y;
+    this.s = Math.randomDec(.2, 2);
+    this.a = Math.randomDec(0, 2*Math.PI);
+    this.alive = true;
+    this.color = `rgb(${Math.randomInt(0, 255)}, ${Math.randomInt(0, 255)}, ${Math.randomInt(0, 255)})`;
     
     this.init = function () {
-        this.x = w/2;
-        this.y = h/2;
-        this.r = Math.randomInt(4, 8);
-        this.a = Math.randomDec(0, 2*Math.PI);
+        this.x = Math.randomInt(0, w);
+        this.y = Math.randomInt(0, h);
         this.s = Math.randomDec(.2, 2);
-        this.c = Math.randomList(['tomato', 'gray', 'orange']);
+        this.a = Math.randomDec(0, 2*Math.PI);
         this.alive = true;
+        this.color = `rgb(${Math.randomInt(0, 255)}, ${Math.randomInt(0, 255)}, ${Math.randomInt(0, 255)})`;
     };
 }
 
-Particle.prototype.kill = function () {
+Character.prototype.kill = function () {
     this.alive = false;
 };
 
-Particle.prototype.isOut = function () {
-    return (this.x+this.r < 0
-            || this.x-this.r > w
-            || this.y+this.r < 0
-            || this.y-this.r > h);
+Character.prototype.isOut = function () {
+    return (this.x+10 < 0
+            || this.x-10 > w
+            || this.y+10 < 0
+            || this.y-10 > h);
 };
 
-Particle.prototype.update = function () {
+Character.prototype.update = function () {
     this.x += Math.cos(this.a) * this.s;
     this.y += Math.sin(this.a) * this.s;
 };
 
-Particle.prototype.clear = function () {
-    ctx.clearRect(this.x-this.r-1, this.y-this.r-1, 2*this.r+2, 2*this.r+2);
-};
-
-Particle.prototype.draw = function () {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-    ctx.fillStyle = this.c;
-    ctx.fill();
+Character.prototype.draw = function () {
+    ctx.save();
+    ctx.font = '20px Arial';
+    ctx.fillStyle = this.color;
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.a);
+    ctx.fillText(this.char, -10, 10); // Adjust the position as needed
+    ctx.restore();
 };
 
 // Ensure init is called after the DOM is fully loaded

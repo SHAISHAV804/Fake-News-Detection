@@ -7,7 +7,7 @@
     <title>Fake News Classifier</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>   
 </head>
 
 <body>
@@ -15,35 +15,33 @@
 
     <div class="abs center overlay container">
         <input style="width: 40%; height: 50px;" type="text" name="chat" id="chatbox"
-            placeholder="Enter the news to check whether its true or not!!!"> <button id="rec"
-            style="height: 55px;width: 7%;">Verify</button>
+            placeholder="Enter the news to check whether its true or not!!!">
+        <button id="rec" style="height: 55px;width: 7%;">Verify</button>
+        <div id="prediction-result"></div>
     </div>
+    
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:700" rel="stylesheet">
 </body>
-<!-- <script>
-    $(document).ready(function () {
-        $('#rec').on('click', function (event) {
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#rec').on('click', function(event) {
             event.preventDefault();
-            var newsText = $('#chatbox').val();
-            if (newsText.trim() === '') {
-                alert('Please enter some news to check.');
-                return;
-            }
+            var inputText = $('#chatbox').val();
             $.ajax({
-                type: "POST",
-                url: "/predict",
-                contentType: 'application/json',
-                data: JSON.stringify({ text: newsText }),
-                success: function (response) {
-                    // Assuming you want to display the prediction in an alert
-                    alert(response.prediction ? 'The news is correct.' : 'The news is not correct.');
+                url: '/predict',
+                method: 'POST',
+                data: {input_text: inputText},
+                success: function(response) {
+                    $('#prediction-result').html('Prediction: ' + response.prediction);
                 },
-                error: function (xhr, status, error) {
-                    alert('An error occurred while processing your request.');
+                error: function(error) {
+                    console.log(error);
                 }
             });
         });
     });
-</script> -->
+</script>
 </html>

@@ -1,45 +1,53 @@
-import csv
-import requests
-from bs4 import BeautifulSoup
+# hindi_alphabet = 'अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ऒ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ क्ष ज्ञ'
+# gujarati_alphabet = 'અ આ ઇ ઈ ઉ ઊ ઋ ઌ ઍ એ ઐ ઑ ઒ ઓ ઔ ક ખ ગ ઘ ઙ ચ છ જ ઝ ઞ ટ ઠ ડ ઢ ણ ત થ દ ધ ન પ ફ બ ભ મ ય ર લ વ શ ષ સ હ ળ ક્ષ જ્ઞ'
+# english_alphabet = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'
+# japanese_alphabet = 'ア イ ウ エ オ カ キ ク ケ コ サ シ ス セ ソ タ チ ツ テ ト ナ ニ ヌ ネ ノ ハ ヒ フ ヘ ホ マ ミ ム メ モ ヤ ユ ヨ ラ リ ル レ ロ ワ ヰ ヱ ヲ ン'
+# marathi_alphabet = 'अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ऒ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ क्ष ज्ञ'
+# punjabi_alphabet = 'ਅ ਆ ਇ ਈ ਉ ਊ ਏ ਐ ਓ ਔ ਕ ਖ ਗ ਘ ਙ ਚ ਛ ਜ ਝ ਞ ਟ ਠ ਡ ਢ ਣ ਤ ਥ ਦ ਧ ਨ ਪ ਫ ਬ ਭ ਮ ਯ ਰ ਲ ਵ ਸ਼ ਸ਼ ਸ ਹ ਲ਼ ਕ੍ਸ਼ ਜ੍ਞ'
 
-def getNewsData():
-    headers = {
-        "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36"
-    }
-    response = requests.get(
-        "https://www.google.com/search?q=election+2024+india&num=100&sca_esv=e7f9f9d91f1faf1c&gl=us&tbm=nws&ei=XZMqZqSBMragnesPzN2wgA4&oq=election+2024&gs_lp=Egxnd3Mtd2l6LW5ld3MiDWVsZWN0aW9uIDIwMjQqAggEMgsQABiABBixAxiDATILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATILEAAYgAQYsQMYgwEyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDATIOEAAYgAQYsQMYgwEYigUyCxAAGIAEGLEDGIMBMgsQABiABBixAxiDAUjX8QFQq6MBWKfaAXACeACQAQCYAZQCoAGuEqoBBjAuMTUuMbgBAcgBAPgBAZgCEqAC6hLCAgoQABiABBhDGIoFwgIFEAAYgATCAgcQABiABBgKwgILEAAYgAQYkQIYigXCAggQABiABBixA8ICDhAAGIAEGJECGLEDGIoFwgIQEAAYgAQYsQMYQxiDARiKBcICERAAGIAEGJECGLEDGIMBGIoFwgIGEAAYFhgewgIIEAAYFhgeGA_CAgQQABgDmAMAiAYBkgcGMi4xNS4xoAeOXA&sclient=gws-wiz-news", headers=headers
-    )
-    soup = BeautifulSoup(response.content, "html.parser")
-    news_results = []
- 
-    for el in soup.select("div.SoaBEf"):
-        link = el.find("a")["href"]
-        title = el.select_one("div.MBeuO").get_text()
-        date = el.select_one(".LfVVr").get_text()
-        source = el.select_one(".NUnG9d span").get_text()
-        
-        # Fetching the full news description from the article link
-        article_response = requests.get(link, headers=headers)
-        article_soup = BeautifulSoup(article_response.content, "html.parser")
-        snippet = article_soup.find("meta", attrs={"name": "description"})["content"]
-        
-        news_results.append({
-            "link": link,
-            "title": title,
-            "snippet": snippet,
-            "date": date,
-            "source": source
-        })
+# alphabets = list(hindi_alphabet + ' ' + gujarati_alphabet + ' ' + english_alphabet + ' ' + japanese_alphabet + ' ' + marathi_alphabet + ' ' + punjabi_alphabet)
 
-    return news_results
+# print(type(alphabets))
+# for x in alphabets:
+#     if x == ' ':
+#         alphabets.remove(x)
+#     else:
+#         pass
 
-news_data = getNewsData()
+# print(alphabets)
 
-with open("news_data.csv", "w", newline="", encoding="utf-8") as csv_file:
-    fieldnames = ["link", "title", "snippet", "date", "source"]
-    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-    writer.writeheader()
-    writer.writerows(news_data)
 
-print("Data saved to news_data.csv")
+# import pandas as pd
+
+# # Load the first CSV file
+# df1 = pd.read_csv('True.csv')
+
+# # Load the second CSV file
+# df2 = pd.read_csv('Fake.csv')
+
+# # Concatenate the two DataFrames
+# concatenated_df = pd.concat([df1, df2], ignore_index=True)
+
+# # Save the concatenated DataFrame to a new CSV file
+# concatenated_df.to_csv('concatenated_file.csv', index=False)
+
+
+
+
+
+
+import pandas as pd
+
+# Specify the path to your Excel file
+excel_file_path = 'main-1.xlsx'
+
+# Read the Excel file
+df = pd.read_excel(excel_file_path)
+
+# Specify the path to the output CSV file
+csv_file_path = 'testing_dataset.csv'
+
+# Save the DataFrame to a CSV file
+df.to_csv(csv_file_path, index=False)
+
+print(f"Excel file has been converted to CSV and saved as {csv_file_path}")
